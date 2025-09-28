@@ -108,14 +108,14 @@ class Game
             {
                 if (!cat.GetState() == State.Ready)
                 {
-                    Console.Writeline("Игрок " + cat.name + ", подтвердите готовность к игре, написав слово 'Ready'.");
+                    Console.Writeline("Игрок " + cat.name + ", подтвердите готовность к игре, написав что-либо в консоль.");
                     cat.SetSatate(State.Ready);
                     //прочитать ходы кота из файла
                 }
 
                 if (!mouse.state == State.Ready)
                 {
-                    Console.Writeline("Игрок " + mouse.name + ", подтвердите готовность к игре, написав слово 'Ready'.");
+                    Console.Writeline("Игрок " + mouse.name + ", подтвердите готовность к игре, написав что-либо в консоль.");
                     mouse.SetState(State.Ready);
                     //прочитать ходы мыши из файла
                 }
@@ -127,10 +127,14 @@ class Game
                     mouse.Setstate(state.Playing);
                     isGameNotStarted = 0;
                 }
-
-               
             }
-               
+
+            //движок
+
+            if (cat.GetState() == State.Looser || mouse.GetState == State.Looser)
+            {
+                Game.SetState(GameState.End);
+            }
         }
     }
 }
