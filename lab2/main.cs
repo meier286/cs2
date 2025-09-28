@@ -2,15 +2,16 @@ enum State {
     Winner,
     Looser,
     Playing,
+    Ready,
     NotInTheGame
 }
 
 class Player
 {
-    public string name;
-    public int location = -1;
-    public State state = state.NotInTheGame;
-    public int distanceTraveled = 0;
+    private string name;
+    private int location = -1;
+    private State state = state.NotInTheGame;
+    private int distanceTraveled = 0;
 
     void setName(string name)
     {
@@ -60,7 +61,14 @@ class Player
 
     public void Move(int steps)
     {
-        setLocation(getLocation() + steps);
+        if (getLocation() + steps > Game.size)
+        {
+            setLocation(-(Game.size - (getLocation + steps)));
+        }
+        else
+        {
+            setLocation(getLocation() + steps);   
+        }
         if (steps < 0)
         {
             steps = -steps;
@@ -71,6 +79,7 @@ class Player
 
 enum GameState
 {
+    WaitingForPlayers,
     Start,
     End
 }
@@ -87,14 +96,41 @@ class Game
         this.size = size;
         cat = new Player("Cat");
         mouse = new Player("Mouse");
-        state = GameState.Start;
+        state = GameState.WaitingForPlayers;
     }
 
     public void Run()
     {
         while (state != GameState.End)
         {
-            
+            bool isGameNotStarted = 1;
+            while (isGameNotStarted)
+            {
+                if (!cat.GetState() == State.Ready)
+                {
+                    Console.Writeline("Игрок " + cat.name + ", подтвердите готовность к игре, написав слово 'Ready'.");
+                    cat.SetSatate(State.Ready);
+                    //прочитать ходы кота из файла
+                }
+
+                if (!mouse.state == State.Ready)
+                {
+                    Console.Writeline("Игрок " + mouse.name + ", подтвердите готовность к игре, написав слово 'Ready'.");
+                    mouse.SetState(State.Ready);
+                    //прочитать ходы мыши из файла
+                }
+
+                if (mouse.GetState() == State.Ready && cat.GetState() == State.Ready)
+                {
+                    Game.State = GameState.Start;
+                    cat.SetState(state.Playing);
+                    mouse.Setstate(state.Playing);
+                    isGameNotStarted = 0;
+                }
+
+               
+            }
+               
         }
     }
 }
@@ -103,6 +139,6 @@ class Program
 {
     static void main(string[] args)
     {
-
+        Game.Run();
     }
 }
