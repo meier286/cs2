@@ -61,14 +61,19 @@ class Player
 
     public void Move(int steps)
     {
-        if (getLocation() + steps > Game.size)
+        int newLocation = getLocation() + steps;
+    
+        if (newLocation > Game.size)
         {
-            setLocation(-(Game.size - (getLocation() + steps)));
+            newLocation = newLocation - Game.size - 1;
         }
-        else
+        else if (newLocation < 0)
         {
-            setLocation(getLocation() + steps);   
+            newLocation = Game.size + newLocation + 1;
         }
+    
+        setLocation(newLocation);
+    
         if (steps < 0)
         {
             steps = -steps;
