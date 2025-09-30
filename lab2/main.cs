@@ -10,45 +10,45 @@ class Player
 {
     private string name;
     private int location = -1;
-    private State state = state.NotInTheGame;
+    private State state = State.NotInTheGame;
     private int distanceTraveled = 0;
 
-    void setName(string name)
+    public void setName(string name)
     {
         this.name = name;
     }
 
-    string getName()
+    public string getName()
     {
         return name;
     }
 
-    void setLocation(int location)
+    public void setLocation(int location)
     {
         this.location = location;
     }
 
-    int getLocation()
+    public int getLocation()
     {
         return location;
     }
 
-    void setState(State state)
+    public void setState(State state)
     {
         this.state = state;
     }
 
-    State GetState()
+    public State GetState()
     {
         return state;
     }
 
-    void setDistanceTraveled(int distanceTraveled)
+    public void setDistanceTraveled(int distanceTraveled)
     {
         this.distanceTraveled = distanceTraveled;
     }
 
-    int getDistanceTravaled()
+    public int getDistanceTraveled()
     {
         return distanceTraveled;
     }
@@ -56,14 +56,14 @@ class Player
     public Player(string name)
     {
         setName(name);
-        Console.Writeline("Игрок был создан.");
+        Console.WriteLine("Игрок был создан.");
     }
 
     public void Move(int steps)
     {
         if (getLocation() + steps > Game.size)
         {
-            setLocation(-(Game.size - (getLocation + steps)));
+            setLocation(-(Game.size - (getLocation() + steps)));
         }
         else
         {
@@ -73,7 +73,7 @@ class Player
         {
             steps = -steps;
         }
-        setDistanceTraveled(getDistanceTravaled() + steps);
+        setDistanceTraveled(getDistanceTraveled() + steps);
     }
 }
 
@@ -86,14 +86,14 @@ enum GameState
 
 class Game
 {
-    public int size;
+    public static int size;
     public Player cat;
     public Player mouse;
     public GameState state;
 
     public Game(int size)
     {
-        this.size = size;
+        Game.size = size;
         cat = new Player("Cat");
         mouse = new Player("Mouse");
         state = GameState.WaitingForPlayers;
@@ -103,52 +103,52 @@ class Game
     {
         while (state != GameState.End)
         {
-            bool isGameNotStarted = 1;
+            bool isGameNotStarted = true;
             while (isGameNotStarted)
             {
-                if (!cat.GetState() == State.Ready)
+                if (cat.GetState() != State.Ready)
                 {
-                    Console.Writeline("Игрок " + cat.name + ", подтвердите готовность к игре, написав что-либо в консоль.");
-                    Console.Readline();
-                    cat.SetSatate(State.Ready);
+                    Console.WriteLine("Игрок " + cat.getName() + ", подтвердите готовность к игре, написав что-либо в консоль.");
+                    Console.ReadLine();
+                    cat.setState(State.Ready);
                     //прочитать ходы кота из файла в массив
                 }
 
-                if (!mouse.state == State.Ready)
+                if (mouse.GetState() != State.Ready)
                 {
-                    Console.Writeline("Игрок " + mouse.name + ", подтвердите готовность к игре, написав что-либо в консоль.");
-                    Console.Readline();
-                    mouse.SetState(State.Ready);
+                    Console.WriteLine("Игрок " + mouse.getName() + ", подтвердите готовность к игре, написав что-либо в консоль.");
+                    Console.ReadLine();
+                    mouse.setState(State.Ready);
                     //прочитать ходы мыши из файла в массив
                 }
 
                 if (mouse.GetState() == State.Ready && cat.GetState() == State.Ready)
                 {
-                    Game.State = GameState.Start;
-                    cat.SetState(state.Playing);
-                    mouse.Setstate(state.Playing);
-                    isGameNotStarted = 0;
+                    state = GameState.Start;
+                    cat.setState(State.Playing);
+                    mouse.setState(State.Playing);
+                    isGameNotStarted = false;
                 }
             }
 
             int catTurns;
             int mouseTurns;
-            Console.Writeline("Введите количество ходов для игрока кот: ");
-            catTurns = Console.Readline();
+            Console.WriteLine("Введите количество ходов для игрока кот: ");
+            catTurns = Convert.ToInt32(Console.ReadLine());
             int[] catTurnsStorage = new int[catTurns];
             for (int i = 0; i < catTurns; i++)
             {
-                Console.Writeline("Введите шаг игрока кот для хода + " + (i + 1));
-                catTurnsStorage[i] = Console.Readline();
+                Console.WriteLine("Введите шаг игрока кот для хода " + (i + 1) + ":");
+                catTurnsStorage[i] = Convert.ToInt32(Console.ReadLine());
             }
             
-            Console.Writeline("Введите количество ходов для игрока мышь: ");
-            mouseTurns = Console.Readline();
+            Console.WriteLine("Введите количество ходов для игрока мышь: ");
+            mouseTurns = Convert.ToInt32(Console.ReadLine());
             int[] mouseTurnsStorage = new int[mouseTurns];
-            for (int i = 0; i < catTurns; i++)
+            for (int i = 0; i < mouseTurns; i++)
             {
-                Console.Writeline("Введите шаг игрока мышь для хода + " + (i + 1));
-                mouseTurnsStorage[i] = Console.Readline();
+                Console.WriteLine("Введите шаг игрока мышь для хода " + (i + 1));
+                mouseTurnsStorage[i] = Convert.ToInt32(Console.ReadLine());
             }
 
             int globalSteps = catTurns;
@@ -159,54 +159,64 @@ class Game
 
             for (int i = 0; i < globalSteps; i++)
             {
-                if (!globalSteps > mouseTurns)
+                if (i < mouseTurns)
                 {
                     mouse.Move(mouseTurnsStorage[i]);
                 }
 
-                if (!globalSteps > catTurns)
+                if (i < catTurns)
                 {
                     cat.Move(catTurnsStorage[i]);
                 }
 
                 int currentDistance;
-                if (mouse.getLocation() > cat.getLOcation())
+                if (mouse.getLocation() > cat.getLocation())
                 {
                     currentDistance = mouse.getLocation() - cat.getLocation();
                 }
-
-                else if (mouse.getLocation() < cat.getLOcation())
+                else if (mouse.getLocation() < cat.getLocation())
                 {
                     currentDistance = cat.getLocation() - mouse.getLocation();
                 }
-
                 else {
                     mouse.setState(State.Looser);
                     cat.setState(State.Winner);
+                    currentDistance = 0;
                 }
                 
-
-                if (mouse.GetState == State.Looser)
+                if (mouse.GetState() == State.Looser)
                 {
-                    Console.Writeline("Игра окончена. Кот поймал мышь!");
-                    Game.SetState(GameState.End);
+                    Console.WriteLine("Игра окончена. Кот поймал мышь!");
+                    Console.WriteLine("Кот прошел расстояние в " + cat.getDistanceTraveled() + " клеток!");
+                    Console.WriteLine("Мышь прошла расстояние в " + mouse.getDistanceTraveled() + " клеток!");
+                    state = GameState.End;
+                    break;
                 }
 
-                Console.Writeline("Расстояние между котом и мышью на ходу +" + (i + 1) + " равно " + currentDistance);
+                Console.WriteLine("Мышь: клетка" + mouse.getLocation());
+                Console.WriteLine("Кот: клетка" + cat.getLocation());
+
+                Console.WriteLine("Расстояние между котом и мышью на ходу " + (i + 1) + " равно " + currentDistance);
             }
 
-            Console.Writeline("Игра окончена. Кот не смог поймать мышь!");
-            cat.setState(State.Looser);
-            Game.SetState(GameState.End);
-            
+            if (state != GameState.End)
+            {
+                Console.WriteLine("Игра окончена. Кот не смог поймать мышь!");
+                Console.WriteLine("Кот прошел расстояние в " + cat.getDistanceTraveled() + " клеток!");
+                Console.WriteLine("Мышь прошла расстояние в " + mouse.getDistanceTraveled() + " клеток!");
+                cat.setState(State.Looser);
+                mouse.setState(State.Winner);
+                state = GameState.End;
+            }
         }
     }
 }
 
 class Program
 {
-    static void main(string[] args)
+    static void Main(string[] args)
     {
-        Game.Run();
+        Game game = new Game(100);
+        game.Run();
     }
 }
