@@ -1,54 +1,147 @@
-﻿class Text
-{
-    List<string> text = new List<string>();
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text.RegularExpressions;
 
-    public void writeToText(string inputtext)
+class Text
+{
+    public List<string> text = new List<string>();
+
+    public void WriteToText(string inputtext)
     {
         text.Add(inputtext);
+    }
+
+    public void PrintSentencesByWordCount(Sentence sentenceProcessor)
+    {
+        Console.WriteLine("Предложения по возрастанию количества слов: ");
+        
+        var sortedSentences = sentenceProcessor.sentences.OrderBy(s => CountWords(s));
+        
+        foreach (var sentence in sortedSentences)
+        {
+            Console.WriteLine($"[{CountWords(sentence)} слов] {sentence}");
+        }
+    }
+
+    public void PrintSentencesByLength(Sentence sentenceProcessor)
+    {
+        Console.WriteLine("Предложения по возрастанию длины: ");
+        
+        var sortedSentences = sentenceProcessor.sentences.OrderBy(s => s.Length);
+        
+        foreach (var sentence in sortedSentences)
+        {
+            Console.WriteLine($"[{sentence.Length} символов] {sentence}");
+        }
+    }
+
+    public void FindWordsInQuestions(Sentence sentenceProcessor, int wordLength)
+    {
+        Console.WriteLine($"Слова длины {wordLength} в вопросительных предложениях: ");
+        
+        var uniqueWords = new HashSet<string>();
+        
+        foreach (var sentence in sentenceProcessor.sentences)
+        {
+            if (sentence.Trim().EndsWith("?"))
+            {
+                var words = ExtractWords(sentence);
+                foreach (var word in words)
+                {
+                    if (word.Length == wordLength)
+                    {
+                        uniqueWords.Add(word.ToLower());
+                    }
+                }
+            }
+        }
+
+        if (uniqueWords.Count == 0)
+        {
+            Console.WriteLine("Слова заданной длины не найдены в вопросительных предложениях.");
+        }
+        else
+        {
+            foreach (var word in uniqueWords.OrderBy(w => w))
+            {
+                Console.WriteLine(word);
+            }
+            Console.WriteLine($"Всего найдено уникальных слов: {uniqueWords.Count}");
+        }
+    }
+
+    private int CountWords(string text)
+    {
+        string pattern = @"\b\w+\b";
+        return Regex.Matches(text, pattern).Count;
+    }
+
+    private string[] ExtractWords(string text)
+    {
+        string pattern = @"\b\w+\b";
+        MatchCollection matches = Regex.Matches(text, pattern);
+        return matches.Cast<Match>().Select(m => m.Value).ToArray();
     }
 }
 
 class Sentence
 {
-    List<string> sentences = new List<string>();
-
-    public void writeToSentence(string sentence)
+    public List<string> sentences = new List<string>();
+    
+    public void WriteToSentence(string text)
     {
-        sentences.Add(sentence);
+        string pattern = @"(?<=[.!?])\s+(?=[А-ЯA-Z])";
+        string[] temp = Regex.Split(text, pattern);
+        foreach (string sent in temp)
+        {   
+            if (!string.IsNullOrWhiteSpace(sent))
+            {
+                sentences.Add(sent.Trim());
+            }
+        }
     }
 }
 
 class Word
 {
-    List<string> words = new List<string>();
+    public List<string> words = new List<string>();
 
-    public void writeToWord(string word)
+    public void WriteToWord(string text)
     {
-        words.Add(word);
+        string pattern = @"\b\w+\b";
+        MatchCollection temp = Regex.Matches(text, pattern);
+
+        foreach (Match match in temp)
+        {
+            words.Add(match.Value);
+        }
     }
 }
 
 class Punctuation
 {
-    List<char> punctuations = new List<char>();
+    public List<char> punctuations = new List<char>();
 
     private static readonly HashSet<char> PunctuationChars = new HashSet<char>
     {
         '.', ',', '!', '?', ';', ':', '(', ')', '[', ']', '{', '}',
         '"', '…', '«', '»', '—'
     };
-    public static bool isPunctuation(char c)
+    
+    public static bool IsPunctuation(char c)
     {
         return PunctuationChars.Contains(c) || char.IsPunctuation(c);
     }
 
-    public void writeToPunctuation(string punctuation)
+    public void WriteToPunctuation(string text)
     {
-        for (int i = 0; i < punctuation.Length; i++)
+        foreach (char c in text)
         {
-            if (isPunctuation(punctuation[i]))
+            if (IsPunctuation(c))
             {
-                punctuations.Add(punctuation[i]);
+                punctuations.Add(c);
             }
         }
     }
@@ -68,12 +161,40 @@ class Program
             return "";
         }
     }
+    
     static void Main()
     {
         Text text = new Text();
         Sentence sentence = new Sentence();
         Word word = new Word();
         Punctuation punctuation = new Punctuation();
-        text.writeToText(ReadAllText("text.txt"));
+        
+        string fileContent = ReadAllText("text.txt");
+        text.WriteToText(fileContent);
+        
+        punctuation.WriteToPunctuation(fileContent);
+        sentence.WriteToSentence(fileContent);
+        word.WriteToWord(fileContent);
+        
+        foreach (var sent in sentence.sentences)
+        {
+            Console.WriteLine(sent);
+        }
+        
+        foreach (var w in word.words)
+        {
+            Console.WriteLine(w);
+        }
+        
+        foreach (var p in punctuation.punctuations)
+        {
+            Console.WriteLine(p);
+        }
+
+        text.PrintSentencesByWordCount(sentence);
+        Console.WriteLine();
+        text.PrintSentencesByLength(sentence);
+        Console.WriteLine();
+        text.FindWordsInQuestions(sentence, 3); 
     }
 }
