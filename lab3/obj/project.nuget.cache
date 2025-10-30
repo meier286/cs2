@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "d4haCa5+tG0=",
+  "success": true,
+  "projectFilePath": "/home/meier/coding/cs/lab3/lab3.csproj",
+  "expectedPackageFiles": [
+    "/home/meier/.nuget/packages/microsoft.aspnetcore.app.ref/9.0.9/microsoft.aspnetcore.app.ref.9.0.9.nupkg.sha512"
+  ],
+  "logs": []
+}
