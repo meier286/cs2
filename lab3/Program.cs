@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 using System.Xml.Serialization;
 
 [Serializable]
-[XmlRoot("text")]
+[XmlRoot("text")] 
 public class TextXml
 {
     [XmlElement("sentence")]
@@ -29,12 +29,16 @@ class Text
         text.Add(inputtext);
     }
 
+    public string getFirstValue(List<string> text) 
+    {
+        return text[0];
+    }
     public void PrintSentencesByWordCount(Sentence sentenceProcessor)
     {
         Console.WriteLine("Предложения по возрастанию количества слов: ");
-        
+
         var sortedSentences = sentenceProcessor.sentences.OrderBy(s => CountWords(s));
-        
+
         foreach (var sentence in sortedSentences)
         {
             Console.WriteLine($"[{CountWords(sentence)} слов] {sentence}");
