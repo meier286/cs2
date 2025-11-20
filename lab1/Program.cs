@@ -200,6 +200,43 @@ class Program {
 		}
 	}
 
+	static void HandleSearchCommand(string[] command, int counter, int fileIndex)
+	{
+		outputWriters[fileIndex].WriteLine($"{counter.ToString("D3")}   {"search"}   {command[1]}");
+		outputWriters[fileIndex].WriteLine("organism\tprotein");
+
+		int index = Search(command[1]);
+		if (index != -1)
+			outputWriters[fileIndex].WriteLine($"{data[index].GetOrganism()}\t{data[index].GetProtein()}");
+		else
+			outputWriters[fileIndex].WriteLine("NOT FOUND");
+
+		outputWriters[fileIndex].WriteLine("================================================");
+	}
+
+	static void HandleDiffCommand(string[] command, int counter, int fileIndex)
+	{
+		if (command.Length < 3) return;
+
+		string protein1Name = command[1];
+		string protein2Name = command[2];
+
+		string aminoAcids1 = GetAminoAcids(protein1Name);
+		string aminoAcids2 = GetAminoAcids(protein2Name);
+
+		if (aminoAcids1 == null || aminoAcids2 == null)
+		{
+			outputWriters[fileIndex].WriteLine($"{counter.ToString("D3")}   {"diff"}   {protein1Name}   {protein2Name}");
+			if (aminoAcids1 == null) outputWriters[fileIndex].WriteLine($"MISSING: {protein1Name}");
+			if (aminoAcids2 == null) outputWriters[fileIndex].WriteLine($"MISSING: {protein2Name}");
+			outputWriters[fileIndex].WriteLine("================================================");
+			return;
+		}
+
+		Diff(aminoAcids1, aminoAcids2, fileIndex, counter, protein1Name, protein2Name);
+	}
+
+
 
     static void Diff(string amino_acids1, string amino_acids2)
     {
