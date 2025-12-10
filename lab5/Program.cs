@@ -58,6 +58,7 @@ public abstract class Auto
 		"\nМощность двигателя: " + EnginePower +
 		"\nМаксимальная скорость: " + MaxSpeed +
 		"\nРасход топлива: " + FuelConsumption +
+		"\nМеста для пассажиров: " + Seats +
 		"\nМесто для багажа: " + LuggageSpace +
 		"\nЦвет: " + Color;
 	}
@@ -140,7 +141,7 @@ public abstract class Mercedes : Auto, IMovable
 	{
 		public TaxiCompany ownedByTaxiCompany { get; set; } = new TaxiCompany();
 		public Client OrderClient { get; set; } = new Client();
-		public int ExtraSeatsChance { get; set; }
+		public int ExtraSeats { get; set; }
 		public Volvo(
 		int v,
 		int ep,
@@ -151,14 +152,14 @@ public abstract class Mercedes : Auto, IMovable
 		int s,
 		string c,
 		string b,
-		int esc) : base(v, ep, ms, fc, cf, ls, s, c, b)
+		int es) : base(v, ep, ms, fc, cf, ls, s, c, b)
 		{
-			this.ExtraSeatsChance = esc;
+			this.ExtraSeats = es;
 		}
 
 		public override string ToString()
 		{
-			return "\nШанс, что все клиенты втеснятся в автомобиль: " + ExtraSeatsChance;
+			return base.ToString() + "\nДополнительных мест: " + ExtraSeats;
 		}
 		public void SendToClient()
 		{
@@ -176,7 +177,7 @@ public abstract class Mercedes : Auto, IMovable
 	{
 		public TaxiCompany ownedByTaxiCompany { get; set; } = new TaxiCompany();
 		public Client OrderClient { get; set; } = new Client();
-		public int AdditionalLuggageSpace { get; set; }
+		public int ExtraLuggageSpace { get; set; }
 		public Lada(
 		int v,
 		int ep,
@@ -187,9 +188,14 @@ public abstract class Mercedes : Auto, IMovable
 		int s,
 		string c,
 		string b,
-		int als) : base(v, ep, ms, fc, cf, ls, s, c, b)
+		int els) : base(v, ep, ms, fc, cf, ls, s, c, b)
 		{
-			this.AdditionalLuggageSpace = als;
+			this.ExtraLuggageSpace = els;
+		}
+
+		public override string ToString()
+		{
+			return base.ToString() + "\nДополнительное место для багажа: " + ExtraLuggageSpace;
 		}
 		public void SendToClient()
 		{
@@ -221,6 +227,11 @@ public abstract class Mercedes : Auto, IMovable
 		int cofc) : base(v, ep, ms, fc, cf, ls, s, c, b)
 		{
 			this.ChanceOfFasterComplition = cofc;
+		}
+		public override string ToString()
+		{
+			//можно будет сразу использовать автомобиль для другого заказа
+			return base.ToString() + "Шанс более быстрого завершения заказа:" + ChanceOfFasterComplition;
 		}
 		public void SendToClient()
 		{
@@ -291,6 +302,11 @@ public abstract class Mercedes : Auto, IMovable
 					Console.WriteLine("Текущий бюджет:");
 					return isRepaired;
 			}
+		}
+
+		public override string ToString()
+		{
+			return base.ToString() + "\nШанс поломки автомобиля во время заказа: " + ChanceOfBreakDown;
 		}
 		public void SendToClient()
 		{
