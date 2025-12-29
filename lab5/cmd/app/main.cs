@@ -116,7 +116,53 @@ class Programm
 				case "2":
 					Console.WriteLine("Вы вошли как клиент.");
 					Console.WriteLine("---------------");
-					//функция для начала работы и чтения файла
+
+					Client client = ClientReader.ReadClient("./data/input/client.json");
+					bool menu2 = true;
+
+					while (menu2)
+					{
+						Console.WriteLine("Введите способ работы:");
+						Console.WriteLine("1. Просмотреть профиль");
+						Console.WriteLine("2. Создать заказ");
+						Console.WriteLine("3. Просмотр истории заказов");
+						Console.WriteLine("0. Выйти из программы");
+						string choice2 = Console.ReadLine();
+
+
+						switch (choice2)
+						{
+							case "1":
+								Console.WriteLine(client.ToString());
+								break;
+							case "2":
+								Order newOrder = new Order();
+								newOrder.Client = client;
+								Console.WriteLine("Введите примерный объем багажа:");
+								newOrder.Baggage = int.Parse(Console.ReadLine());
+								Console.WriteLine("Отметьте на карте расстояние до пункта назначения:");
+								newOrder.DistanceToTravel = int.Parse(Console.ReadLine());
+								Console.WriteLine("Введите количество людей:");
+								newOrder.PeopleCount = int.Parse(Console.ReadLine());
+								newOrder.OrderCost = newOrder.Baggage * 1.1 + newOrder.DistanceToTravel * 1.5 + newOrder.PeopleCount * 1.3;
+								OrderWriter.SaveOrder(newOrder);
+								break;
+							case "3":
+
+								List<Order> myOrders = OrderReader.ReadOrders("./data/output/orders.json");
+								foreach (Order o in myOrders)
+								{
+									Console.WriteLine(o.ToString());
+								}
+								break;
+							case "0":
+								menu2 = false;
+								break;
+							default:
+								Console.WriteLine("Неверный ввод. Попробуйте снова.");
+								break;
+						}
+					}
 					return;
 				default:
 					Console.WriteLine("\nНеверный ввод. Попробуйте еще раз.\n");

@@ -30,6 +30,8 @@ public abstract class Human
 		this.Name = name;
 		this.Patronymic = patronymic;
 	}
+
+	public Human() { }
 }
 public class Auto : IMovable
 {
@@ -117,16 +119,25 @@ public class Dispetcher : Human
 public class Client : Human
 {
 	public int Age;
-	public int Money;
-	public Client(string surname, string name, string patronymic, int age, int money) : base(surname, name, patronymic)
+	public double Money;
+
+	public Client()
+	{
+	}
+
+	public Client(string surname, string name, string patronymic, int age, double money) : base(surname, name, patronymic)
 	{
 		this.Age = age;
 		this.Money = money;
 	}
 
-	public void WriteMark()
+	public override string ToString()
 	{
-
+		return "Имя: " + base.Name +
+		"\nФамилия: " + base.Surname +
+		"\nОтчество: " + base.Patronymic +
+		"\nВозраст: " + Age +
+		"\nБаланс: " + Money + "\n";
 	}
 }
 
@@ -136,9 +147,9 @@ public class Order
 	public int Baggage { get; set; }
 	public int DistanceToTravel { get; set; }
 	public int PeopleCount { get; set; }
-	public int OrderCost { get; set; }
+	public double OrderCost { get; set; }
 
-	public Order(Client client, int baggage, int distanceToTravel, int peopleCount, int orderCost)
+	public Order(Client client, int baggage, int distanceToTravel, int peopleCount, double orderCost)
 	{
 
 		this.Client = client;
@@ -147,6 +158,8 @@ public class Order
 		this.PeopleCount = peopleCount;
 		this.OrderCost = orderCost;
 	}
+
+	public Order() { }
 
 	public override string ToString()
 	{
@@ -157,7 +170,7 @@ public class Order
 		"\nОбъем багажа: " + Baggage + " л" +
 		"\nРасстояние до пункта назначения: " + DistanceToTravel + " км" +
 		"\nКоличество пассажиров " + PeopleCount +
-		"\nСтоимость заказа " + OrderCost + "\n";
+		"\nСтоимость заказа " + OrderCost + " рублей\n";
 	}
 
 }

@@ -1,0 +1,13 @@
+[
+  {
+    "ClientSurname": "Кузнецов",
+    "ClientName": "Алексей",
+    "ClientPatronymic": "Сергеевич",
+    "ClientAge": 0,
+    "ClientMoney": 0,
+    "Baggage": 2113,
+    "DistanceToTravel": 23,
+    "PeopleCount": 12,
+    "OrderCost": 2374.4
+  }
+]
