@@ -1,0 +1,72 @@
+[
+  {
+    "Value": 2800000,
+    "Body": "Minivan",
+    "EnginePower": 190,
+    "MaxSpeed": 195,
+    "FuelConsumption": 9,
+    "MaxFuel": 70,
+    "CurrentFuel": 65,
+    "LuggageSpace": 950,
+    "Seats": 8,
+    "Color": "Серебристый металлик",
+    "IsCorrupted": false,
+    "Model": "Toyota Alphard"
+  },
+  {
+    "Value": 3500000,
+    "Body": "Crossover",
+    "EnginePower": 245,
+    "MaxSpeed": 210,
+    "FuelConsumption": 11,
+    "MaxFuel": 72,
+    "CurrentFuel": 60,
+    "LuggageSpace": 780,
+    "Seats": 7,
+    "Color": "Черный опал",
+    "IsCorrupted": false,
+    "Model": "Lexus RX 450h"
+  },
+  {
+    "Value": 2200000,
+    "Body": "Universal",
+    "EnginePower": 170,
+    "MaxSpeed": 205,
+    "FuelConsumption": 7,
+    "MaxFuel": 60,
+    "CurrentFuel": 50,
+    "LuggageSpace": 650,
+    "Seats": 5,
+    "Color": "Темно-синий",
+    "IsCorrupted": true,
+    "Model": "Volvo V90 Cross Country"
+  },
+  {
+    "Value": 1900000,
+    "Body": "Hatchback",
+    "EnginePower": 150,
+    "MaxSpeed": 215,
+    "FuelConsumption": 6,
+    "MaxFuel": 50,
+    "CurrentFuel": 40,
+    "LuggageSpace": 380,
+    "Seats": 5,
+    "Color": "Оранжевый",
+    "IsCorrupted": false,
+    "Model": "Hyundai i30 N-Line"
+  },
+  {
+    "Value": 4200000,
+    "Body": "Sedan",
+    "EnginePower": 300,
+    "MaxSpeed": 250,
+    "FuelConsumption": 10,
+    "MaxFuel": 68,
+    "CurrentFuel": 55,
+    "LuggageSpace": 480,
+    "Seats": 5,
+    "Color": "Белый жемчуг",
+    "IsCorrupted": false,
+    "Model": "Mercedes-Benz E-Class"
+  }
+]

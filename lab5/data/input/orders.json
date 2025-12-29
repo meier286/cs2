@@ -1,0 +1,79 @@
+[
+  {
+    "ClientSurname": "Иванов",
+    "ClientName": "Иван",
+    "ClientPatronymic": "Иванович",
+    "ClientAge": 32,
+    "ClientMoney": 45000,
+    "Baggage": 120,
+    "DistanceToTravel": 450,
+    "PeopleCount": 3,
+    "OrderCost": 18500
+  },
+  {
+    "ClientSurname": "Петрова",
+    "ClientName": "Мария",
+    "ClientPatronymic": "Сергеевна",
+    "ClientAge": 28,
+    "ClientMoney": 32000,
+    "Baggage": 45,
+    "DistanceToTravel": 120,
+    "PeopleCount": 1,
+    "OrderCost": 5500
+  },
+  {
+    "ClientSurname": "Сидоров",
+    "ClientName": "Алексей",
+    "ClientPatronymic": "Петрович",
+    "ClientAge": 41,
+    "ClientMoney": 68000,
+    "Baggage": 200,
+    "DistanceToTravel": 780,
+    "PeopleCount": 5,
+    "OrderCost": 32500
+  },
+  {
+    "ClientSurname": "Козлова",
+    "ClientName": "Елена",
+    "ClientPatronymic": "Владимировна",
+    "ClientAge": 35,
+    "ClientMoney": 29000,
+    "Baggage": 80,
+    "DistanceToTravel": 250,
+    "PeopleCount": 2,
+    "OrderCost": 9800
+  },
+  {
+    "ClientSurname": "Николаев",
+    "ClientName": "Дмитрий",
+    "ClientPatronymic": "Андреевич",
+    "ClientAge": 39,
+    "ClientMoney": 51000,
+    "Baggage": 150,
+    "DistanceToTravel": 520,
+    "PeopleCount": 4,
+    "OrderCost": 21400
+  },
+  {
+    "ClientSurname": "Волкова",
+    "ClientName": "Ольга",
+    "ClientPatronymic": "Игоревна",
+    "ClientAge": 26,
+    "ClientMoney": 23000,
+    "Baggage": 30,
+    "DistanceToTravel": 85,
+    "PeopleCount": 1,
+    "OrderCost": 3200
+  },
+  {
+    "ClientSurname": "Федоров",
+    "ClientName": "Сергей",
+    "ClientPatronymic": "Михайлович",
+    "ClientAge": 48,
+    "ClientMoney": 72000,
+    "Baggage": 250,
+    "DistanceToTravel": 950,
+    "PeopleCount": 6,
+    "OrderCost": 42800
+  }
+]
